@@ -72,7 +72,7 @@ func (f *Framework) setupOperator() error {
 		ObjectMeta: metav1.ObjectMeta{
 			Name: name,
 			Labels: map[string]string{
-				crv1.ServiceGroupLabel: name,
+				crv1.HabitatLabel: name,
 			},
 		},
 		Spec: apiv1.PodSpec{

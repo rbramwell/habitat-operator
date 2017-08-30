@@ -26,8 +26,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// TestServiceGroupCreate tests service group creation.
-func TestServiceGroupCreate(t *testing.T) {
+// TestHabitatCreate tests service group creation.
+func TestHabitatCreate(t *testing.T) {
 	sgName := "test-standalone"
 	sg := framework.NewStandaloneSG(sgName, "foobar", false)
 
@@ -46,8 +46,8 @@ func TestServiceGroupCreate(t *testing.T) {
 	}
 }
 
-// TestServiceGroupInitialConfig tests initial configuration.
-func TestServiceGroupInitialConfig(t *testing.T) {
+// TestHabitatInitialConfig tests initial configuration.
+func TestHabitatInitialConfig(t *testing.T) {
 	sgName := "mytutorialapp"
 	msg := "Hello from Tests!"
 	configMsg := fmt.Sprintf("message = '%s'", msg)
@@ -85,7 +85,7 @@ func TestServiceGroupInitialConfig(t *testing.T) {
 		},
 		Spec: apiv1.ServiceSpec{
 			Selector: map[string]string{
-				crv1.ServiceGroupLabel: sgName,
+				crv1.HabitatLabel: sgName,
 			},
 			Type: "NodePort",
 			Ports: []apiv1.ServicePort{
@@ -133,8 +133,8 @@ func TestServiceGroupInitialConfig(t *testing.T) {
 	}
 }
 
-// TestServiceGroupFunctioning tests that operator deploys a habitat service and that it has started.
-func TestServiceGroupFunctioning(t *testing.T) {
+// TestHabitatFunctioning tests that operator deploys a habitat service and that it has started.
+func TestHabitatFunctioning(t *testing.T) {
 	sgName := "test-service-group"
 	sg := framework.NewStandaloneSG(sgName, "foobar", false)
 
@@ -154,7 +154,7 @@ func TestServiceGroupFunctioning(t *testing.T) {
 		},
 		Spec: apiv1.ServiceSpec{
 			Selector: map[string]string{
-				crv1.ServiceGroupLabel: sgName,
+				crv1.HabitatLabel: sgName,
 			},
 			Type: "NodePort",
 			Ports: []apiv1.ServicePort{
@@ -202,8 +202,8 @@ func TestServiceGroupFunctioning(t *testing.T) {
 	}
 }
 
-// TestServiceGroupDelete tests Service Group deletion.
-func TestServiceGroupDelete(t *testing.T) {
+// TestHabitatDelete tests Service Group deletion.
+func TestHabitatDelete(t *testing.T) {
 	sgName := "test-deletion"
 	sg := framework.NewStandaloneSG(sgName, "foobar", false)
 

@@ -1,4 +1,4 @@
-# Encrypted ServiceGroup example
+# Encrypted Habitat example
 
 ## Workflow
 
@@ -19,11 +19,11 @@ For example, for a key named `foobar`, the key file might be something like
 `foobar-20170824094632.sym.key`, and the secret name must be
 `foobar-20170824094632`.
 
-The secret's name must additionally be referenced in the `ServiceGroup` object's `ringSecretName`
+The secret's name must additionally be referenced in the `Habitat` object's `ringSecretName`
 key.
 
 ## Deletion
 
-The operator does not delete the Secret on ServiceGroup deletion. This is
+The operator does not delete the Secret on Habitat deletion. This is
 because the user might want to re-use the secret across multiple
-`ServiceGroup`s and `ServiceGroup` lifecycles.
+`Habitat`s and `Habitat` lifecycles.

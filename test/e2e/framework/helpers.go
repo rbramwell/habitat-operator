@@ -26,13 +26,13 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 )
 
-// NewStandaloneSG returns a new Standalone ServiceGroup.
-func (f *Framework) NewStandaloneSG(sgName, group string, secret bool) *crv1.ServiceGroup {
-	sg := crv1.ServiceGroup{
+// NewStandaloneSG returns a new Standalone Habitat.
+func (f *Framework) NewStandaloneSG(sgName, group string, secret bool) *crv1.Habitat {
+	sg := crv1.Habitat{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: sgName,
 		},
-		Spec: crv1.ServiceGroupSpec{
+		Spec: crv1.HabitatSpec{
 			Image: "kinvolk/nodejs-hab",
 			Count: 1,
 			Habitat: crv1.Habitat{
@@ -48,11 +48,11 @@ func (f *Framework) NewStandaloneSG(sgName, group string, secret bool) *crv1.Ser
 	return &sg
 }
 
-// CreateSG creates a ServiceGroup.
-func (f *Framework) CreateSG(sg *crv1.ServiceGroup) error {
+// CreateSG creates a Habitat.
+func (f *Framework) CreateSG(sg *crv1.Habitat) error {
 	return f.Client.Post().
 		Namespace(apiv1.NamespaceDefault).
-		Resource(crv1.ServiceGroupResourcePlural).
+		Resource(crv1.HabitatResourcePlural).
 		Body(sg).
 		Do().
 		Error()
@@ -68,7 +68,7 @@ func (f *Framework) WaitForResources(sgName string, numPods int) error {
 		})
 
 		ls := labels.SelectorFromSet(labels.Set{
-			crv1.ServiceGroupLabel: sgName,
+			crv1.HabitatLabel: sgName,
 		})
 
 		pods, err := f.KubeClient.CoreV1().Pods(apiv1.NamespaceDefault).List(metav1.ListOptions{FieldSelector: fs.String(), LabelSelector: ls.String()})
@@ -99,11 +99,11 @@ func (f *Framework) WaitForEndpoints(sgName string) error {
 	})
 }
 
-// DeleteSG deletes a ServiceGroup as a user would.
+// DeleteSG deletes a Habitat as a user would.
 func (f *Framework) DeleteSG(sgName string) error {
 	return f.Client.Delete().
 		Namespace(apiv1.NamespaceDefault).
-		Resource(crv1.ServiceGroupResourcePlural).
+		Resource(crv1.HabitatResourcePlural).
 		Name(sgName).
 		Do().
 		Error()

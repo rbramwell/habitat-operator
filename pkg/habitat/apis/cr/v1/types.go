@@ -19,37 +19,35 @@ import (
 )
 
 const (
-	ServiceGroupResourcePlural = "servicegroups"
-	ServiceGroupLabel          = "service-group"
+	HabitatResourcePlural = "habitats"
+	HabitatLabel          = "habitat"
 
 	TopologyLabel = "topology"
-
-	HabitatLabel = "habitat"
 )
 
-type ServiceGroup struct {
+type Habitat struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata"`
-	Spec              ServiceGroupSpec   `json:"spec"`
-	Status            ServiceGroupStatus `json:"status,omitempty"`
+	Spec              HabitatSpec   `json:"spec"`
+	Status            HabitatStatus `json:"status,omitempty"`
 }
 
-type ServiceGroupSpec struct {
+type HabitatSpec struct {
 	// Count is the amount of Services to start in this Service Group.
 	Count int `json:"count"`
 	// Image is the Docker image of the Habitat Service.
 	Image   string  `json:"image"`
-	Habitat Habitat `json:"habitat"`
+	Service Service `json:"service"`
 }
 
-type ServiceGroupStatus struct {
-	State   ServiceGroupState `json:"state,omitempty"`
-	Message string            `json:"message,omitempty"`
+type HabitatStatus struct {
+	State   HabitatState `json:"state,omitempty"`
+	Message string       `json:"message,omitempty"`
 }
 
-type ServiceGroupState string
+type HabitatState string
 
-type Habitat struct {
+type Service struct {
 	// Group is the value of the --group flag for the hab client.
 	// Optional. Defaults to `default`.
 	Group string `json:"group"`
@@ -71,15 +69,15 @@ func (t Topology) String() string {
 }
 
 const (
-	ServiceGroupStateCreated   ServiceGroupState = "Created"
-	ServiceGroupStateProcessed ServiceGroupState = "Processed"
+	HabitatStateCreated   HabitatState = "Created"
+	HabitatStateProcessed HabitatState = "Processed"
 
 	TopologyStandalone Topology = "standalone"
 	TopologyLeader     Topology = "leader"
 )
 
-type ServiceGroupList struct {
+type HabitatList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
-	Items           []ServiceGroup `json:"items"`
+	Items           []Habitat `json:"items"`
 }

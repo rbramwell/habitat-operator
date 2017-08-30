@@ -1,5 +1,5 @@
 apiVersion: habitat.sh/v1
-kind: ServiceGroup
+kind: Habitat
 metadata:
   name: example-leader-follower-service-group
 spec:
@@ -7,7 +7,7 @@ spec:
   image: kinvolk/consul-hab
   # count must be at least 3 for a leader-follower topology
   count: 3
-  habitat:
+  service:
     topology: leader
     # if not present, defaults to "default"
     group: foobar
