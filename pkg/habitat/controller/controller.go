@@ -454,6 +454,13 @@ func (hc *HabitatController) newDeployment(sg *crv1.ServiceGroup) (*appsv1beta1.
 		)
 	}
 
+	if sg.Spec.Habitat.Bind.Name != "" {
+		bindArg := fmt.Sprintf("%s:%s.%s", sg.Spec.Habitat.Bind.Name, sg.Spec.Habitat.Bind.Service, sg.Spec.Habitat.Bind.Group)
+		habArgs = append(habArgs,
+			"--peer db",
+			"--bind", bindArg)
+	}
+
 	base := &appsv1beta1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: sg.Name,

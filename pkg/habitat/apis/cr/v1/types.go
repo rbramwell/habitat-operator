@@ -62,6 +62,17 @@ type Habitat struct {
 	// The name of the secret that contains the ring key.
 	// Optional.
 	RingSecretName string `json:"ringSecretName,omitempty"`
+	// Bind --bind database:{service}.{group}
+	Bind Bind `json:"habitat"`
+}
+
+type Bind struct {
+	// BindName is the name of the bind specified in Habita configuration files.
+	Name string `json:"bindName"`
+	// ServiceName is the name of the service this bind is refering to.
+	Service string `json:"serviceName"`
+	// ServiceGroup is the group of the service this bind is refering to.
+	Group string `json:"serviceGroup"`
 }
 
 type Topology string

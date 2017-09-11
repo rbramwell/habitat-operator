@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rails 
+type: Opaque
+data:
+  # Each item needs to be encoded in base64, as Kubernetes expects that encoding.
+  # Plain text content:
+  # secret_key_base = "35a2efb7eb37b72c40841033f092d5b6e704041c45fa5644677b9f6c587c511b37ef4af57af19b9842df908698b48f00e568591863fbc6aea85e15bfab713f4c"
+  #
+  # [db]
+  # user = "admin"
+  # password = "admin"
+  user.toml: c2VjcmV0X2tleV9iYXNlID0gIjM1YTJlZmI3ZWIzN2I3MmM0MDg0MTAzM2YwOTJkNWI2ZTcwNDA0MWM0NWZhNTY0NDY3N2I5ZjZjNTg3YzUxMWIzN2VmNGFmNTdhZjE5Yjk4NDJkZjkwODY5OGI0OGYwMGU1Njg1OTE4NjNmYmM2YWVhODVlMTViZmFiNzEzZjRjIiBbZGJdIHVzZXIgPSAiYWRtaW4iIHBhc3N3b3JkID0gImFkbWluIg==
+---
+apiVersion: habitat.sh/v1
+kind: ServiceGroup
+metadata:
+  name: db 
+spec:
+  image: kinvolk/postgresql-hab
+  count: 1
+  habitat:
+    topology: standalone
+---
+apiVersion: habitat.sh/v1
+kind: ServiceGroup
+metadata:
+  name: myrailsapp 
+spec:
+  image: kinvolk/railsapp-hab
+  count: 1
+  habitat:
+    topology: standalone
+    bind:
+      bindName: database
+      serviceName: db
+      serviceGroup: default
+    config: rails
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+spec:
+  clusterIP: None
+  ports:
+  - name: headless
+    port: 55555
+    targetPort: 0
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    io.kompose.service: railsapp
+  name: myrailsapp
+spec:
+  ports:
+  - name: "8000"
+    port: 8000
+    targetPort: 8000
+status:
+  loadBalancer: {}
